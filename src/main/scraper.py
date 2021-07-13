@@ -31,7 +31,8 @@ class myScraper(object):
 
     
     #scrape bing for images on a certain topic
-    def scrape_bing_for_images(self, search_term, number_of_images):       
+    def scrape_bing_for_images(self, search_term, number_of_images):
+        failcounter=0       
         self.driver.get("https://www.bing.com/images/search?q=" + search_term)
         image_src_paths = set()
         time.sleep(1)
@@ -39,13 +40,18 @@ class myScraper(object):
             for path in self.grab_bing_image_src():       
                 if(path not in image_src_paths):       
                     image_src_paths.add(path)
-            self.scroll_down()
+
+            if(self.scroll_down()):       
+                failcounter = 0
+            else:
+                failcounter += 1
+            if failcounter > 5:       
+                break
+
             self.bing_seemore_button()
-            time.sleep(1)
+            # time.sleep(1)
             print(len(image_src_paths),' image sources found')
 
-
-        
         start_index = self.get_start_index(search_term)
         for idx, url in enumerate(image_src_paths):
             if (url[:4] != 'data'):
@@ -53,13 +59,9 @@ class myScraper(object):
             elif(url[:4] == 'data'):       
                 image_base64 = url.split('base64,')[1]
                 format = 'jpeg' if url.split('image/')[1][0:4] == 'jpeg' else 'png'
-
-                print(format)
                 imgdata = base64.b64decode(image_base64)
                 #write the base64 image to a file
                 with open(self.driver_path[:-16]+'/images/'+str(search_term)+'/'+str(idx+start_index)+'.'+format, 'wb') as f:
-                    print('idx',idx+start_index, 'of base 64 image')
-                    print(url[:20])
                     f.write(imgdata)
                     f.close()
             
@@ -119,8 +121,14 @@ class myScraper(object):
             return False
 
     def scroll_down(self):
-        self.driver.execute_script("window.scrollTo({left:0,top:(window.GetScrollTop()+1000),behavior:'smooth'});")             
-        return
+        #check window position
+        scroll_position = self.driver.execute_script("return window.GetScrollTop()")
+        self.driver.execute_script("window.scrollTo({left:0,top:(window.GetScrollTop()+1000),behavior:'smooth'});") 
+        time.sleep(1) 
+        #check to see if window position has changed
+        new_scroll_position = self.driver.execute_script("return window.GetScrollTop()")
+        
+        return new_scroll_position != scroll_position
     #method to scroll up 200 pixels
     def scroll_up(self):
         self.driver.execute_script("window.scrollTo(0, -200);")

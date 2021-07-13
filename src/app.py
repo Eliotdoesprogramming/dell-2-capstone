@@ -8,7 +8,7 @@ cdriver_path = os.path.dirname(__file__)[:-3].replace('\\','/')+'assets/chromedr
 scraper = myScraper(cdriver_path)
 #scraper.scrape_for_image('pizza',40)
 
-scraper.scrape_bing_for_images('pizza',50)
+scraper.scrape_bing_for_images('pizza',500)
 scraper.close_browser()
 
 # driver.get('http://www.google.com/')
