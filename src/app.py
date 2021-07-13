@@ -1,12 +1,15 @@
 import os
-from .scraper import myScraper
+from main.scraper import myScraper
 
 
 
 cdriver_path = os.path.dirname(__file__)[:-3].replace('\\','/')+'assets/chromedriver.exe'
 
 scraper = myScraper(cdriver_path)
-scraper.scrape('pizza',40)
+#scraper.scrape_for_image('pizza',40)
+
+scraper.scrape_bing_for_images('pizza',50)
+scraper.close_browser()
 
 # driver.get('http://www.google.com/')
 
