@@ -13,7 +13,7 @@ class myScraper(object):
 
 
     #scrape bing for images on a certain topic
-    def scrape_bing_for_images(self, search_term, number_of_images):
+    def scrape_bing_for_images(self, search_term, number_of_images)->int:
         failcounter=0       
         self.driver.get("https://www.bing.com/images/search?q=" + search_term)
         image_src_paths = set()
@@ -31,22 +31,57 @@ class myScraper(object):
                 break
 
             self.bing_seemore_button()
-            # time.sleep(1)
             print(len(image_src_paths),' image sources found')
 
-        start_index = self.get_start_index(search_term)
-        for idx, url in enumerate(image_src_paths):
-            if (url[:4] != 'data'):
-                self.download_image_from_url(url, self.driver_path[:-16]+'/images/'+str(search_term)+'/'+str(idx+start_index)+'.png')
-            elif(url[:4] == 'data'):       
-                image_base64 = url.split('base64,')[1]
-                format = 'jpeg' if url.split('image/')[1][0:4] == 'jpeg' else 'png'
-                imgdata = base64.b64decode(image_base64)
-                #write the base64 image to a file
-                with open(self.driver_path[:-16]+'/images/'+str(search_term)+'/'+str(idx+start_index)+'.'+format, 'wb') as f:
-                    f.write(imgdata)
-                    f.close()
+
+        images_downloaded = self.download_images(search_term, image_src_paths)       
+    
+        return images_downloaded
             
+        #scrape yahoo for images on a certain topic
+    
+    
+    def scrape_yahoo_for_images(self,search_term, number_of_images):       
+        failcounter=0       
+        self.driver.get("https://images.search.yahoo.com/search/images?p=" + search_term)       
+        image_src_paths = set()       
+        time.sleep(1)       
+        while(len(image_src_paths) < number_of_images):       
+            for path in self.grab_yahoo_image_src():       
+                if(path not in image_src_paths):       
+                    image_src_paths.add(path)       
+            if(self.scroll_down()):       
+                failcounter = 0       
+            else:       
+                failcounter += 1       
+            if failcounter > 5:       
+                break       
+            self.yahoo_seemore_button()       
+            time.sleep(1)       
+            print(len(image_src_paths),' image sources found')       
+  
+        images_downloaded = self.download_images(search_term, image_src_paths)  
+        return images_downloaded+1
+
+    def grab_yahoo_image_src(self):
+        images = self.driver.find_elements_by_css_selector('li img')
+        src_paths = []
+        for image in images:
+            src = image.get_attribute('src')
+            if src != None:
+                src_paths.append(src)
+        return src_paths
+
+    def yahoo_seemore_button(self):
+        try:       
+            more_button = self.driver.find_element_by_name('more-res')     
+            more_button.click()
+        except Exception as e:       
+            print(e)
+            return False
+        return
+
+    
     #scrape google for images on a certain topic 
     def scrape_google_for_images(self, search_term, number_of_images):       
         failcounter=0       
@@ -70,20 +105,11 @@ class myScraper(object):
             self.google_seemore_button()       
             time.sleep(1)       
             print(len(image_src_paths),' image sources found')       
-        start_index = self.get_start_index(search_term)       
-        for idx, url in enumerate(image_src_paths):       
-            if (url[:4] != 'data'):       
-                self.download_image_from_url(url, self.driver_path[:-16]+'/images/'+str(search_term)+'/'+str(idx+start_index)+'.png')       
-            elif(url[:4] == 'data'):       
-                image_base64 = url.split('base64,')[1]       
-                format = 'jpeg' if url.split('image/')[1][0:4] == 'jpeg' else 'png'       
-                imgdata = base64.b64decode(image_base64)       
-                #write the base64 image to a file       
-                with open(self.driver_path[:-16]+'/images/'+str(search_term)+'/'+str(idx+start_index)+'.'+format, 'wb') as f:       
-                    f.write(imgdata)       
-                    f.close()       
-            time.sleep(1)       
-        return
+    
+        number_of_images_downloaded = self.download_images(search_term, image_src_paths)
+        
+        
+        return number_of_images_downloaded+1
 
     def google_seemore_button(self):       
             try:       
@@ -121,6 +147,23 @@ class myScraper(object):
         except:       
             return False
 
+    def download_images(self, search_term, paths_to_save)->int:
+        start_index = self.get_start_index(search_term)
+        for idx, url in enumerate(paths_to_save):
+            if(idx % 100 == 0):
+                print(idx,' images downloaded')
+            if (url[:4] != 'data'):
+                self.download_image_from_url(url, self.driver_path[:-16]+'/images/'+str(search_term)+'/'+str(idx+start_index)+'.png')
+            elif(url[:4] == 'data'):       
+                image_base64 = url.split('base64,')[1]
+                format = 'jpeg' if url.split('image/')[1][0:4] == 'jpeg' else 'png'
+                imgdata = base64.b64decode(image_base64)
+                #write the base64 image to a file
+                with open(self.driver_path[:-16]+'/images/'+str(search_term)+'/'+str(idx+start_index)+'.'+format, 'wb') as f:
+                    f.write(imgdata)
+                    f.close()
+        return idx
+
     def download_image_from_url(self, image_url, file_path):       
         response = requests.get(image_url)       
         with open(file_path, 'wb') as f:       
@@ -146,7 +189,12 @@ class myScraper(object):
         
 
     def bing_seemore_button(self)->bool:
-        seemore = self.driver.find_element_by_xpath('//*[@id="bop_container"]/div[2]/a')
+        try:
+            seemore = self.driver.find_element_by_xpath('//*[@id="bop_container"]/div[2]/a')
+        except Exception as e:
+            print(e)
+            print('couldnt find seemore button')
+            return False
         if(seemore.is_displayed()):       
             seemore.click()       
             time.sleep(1)
