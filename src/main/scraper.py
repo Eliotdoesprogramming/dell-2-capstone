@@ -11,25 +11,7 @@ class myScraper(object):
         self.driver_path = driver_path
         self.driver = self.open_browser()
 
-    def scrape_for_image_google(self, search_term, number_of_images):
-        self.driver.get("https://www.google.com/search?q=" + search_term)
-        imagelink = self.driver.find_element_by_xpath('//*[@id="hdtb-msb"]/div[1]/div/div[3]/a')
-        imagelink.click()
-        time.sleep(1)
-        
 
-        images = self.driver.find_elements_by_class_name('rg_i')
-        for idx,image in enumerate(images):
-            try:
-                image.screenshot(self.driver_path[:-16]+'/images/'+str(idx)+'.png')
-            except:
-                pass
-
-            # next_page = self.driver.find_element_by_class_name('pn')
-            # next_page.click()
-            # time.sleep(1)
-
-    
     #scrape bing for images on a certain topic
     def scrape_bing_for_images(self, search_term, number_of_images):
         failcounter=0       
@@ -65,7 +47,60 @@ class myScraper(object):
                     f.write(imgdata)
                     f.close()
             
-    
+    #scrape google for images on a certain topic 
+    def scrape_google_for_images(self, search_term, number_of_images):       
+        failcounter=0       
+        self.driver.get("https://www.google.com/search?q=" + search_term)
+        time.sleep(1)
+        self.driver.find_element_by_link_text('Images').click()
+
+        image_src_paths = set()       
+        time.sleep(1)       
+        while(len(image_src_paths) < number_of_images):       
+            for path in self.grab_google_image_src():       
+                if(path not in image_src_paths):       
+                    image_src_paths.add(path)
+
+            if(self.scroll_down()):       
+                failcounter = 0       
+            else:       
+                failcounter += 1       
+            if failcounter > 5:       
+                break       
+            self.google_seemore_button()       
+            time.sleep(1)       
+            print(len(image_src_paths),' image sources found')       
+        start_index = self.get_start_index(search_term)       
+        for idx, url in enumerate(image_src_paths):       
+            if (url[:4] != 'data'):       
+                self.download_image_from_url(url, self.driver_path[:-16]+'/images/'+str(search_term)+'/'+str(idx+start_index)+'.png')       
+            elif(url[:4] == 'data'):       
+                image_base64 = url.split('base64,')[1]       
+                format = 'jpeg' if url.split('image/')[1][0:4] == 'jpeg' else 'png'       
+                imgdata = base64.b64decode(image_base64)       
+                #write the base64 image to a file       
+                with open(self.driver_path[:-16]+'/images/'+str(search_term)+'/'+str(idx+start_index)+'.'+format, 'wb') as f:       
+                    f.write(imgdata)       
+                    f.close()       
+            time.sleep(1)       
+        return
+
+    def google_seemore_button(self):       
+            try:       
+                more_button = self.driver.find_element_by_class_name('mye4qd')     
+                more_button.click()
+            except Exception as e:       
+                print(e)
+
+    def grab_google_image_src(self):
+        images = self.driver.find_elements_by_class_name('rg_i')
+        src_paths = []
+        for image in images:
+            src = image.get_attribute('src')
+            if src != None:       
+                src_paths.append(src)
+        return src_paths
+
     #grab all of the image elements from the images with class mimg. then return a list of their src attributes
     def grab_bing_image_src(self):       
         images = self.driver.find_elements_by_class_name('mimg')
@@ -122,11 +157,11 @@ class myScraper(object):
 
     def scroll_down(self):
         #check window position
-        scroll_position = self.driver.execute_script("return window.GetScrollTop()")
-        self.driver.execute_script("window.scrollTo({left:0,top:(window.GetScrollTop()+1000),behavior:'smooth'});") 
+        scroll_position = self.driver.execute_script("return window.scrollY")
+        self.driver.execute_script("window.scrollTo({left:0,top:(window.scrollY+1000),behavior:'smooth'});") 
         time.sleep(1) 
         #check to see if window position has changed
-        new_scroll_position = self.driver.execute_script("return window.GetScrollTop()")
+        new_scroll_position = self.driver.execute_script("return window.scrollY")
         
         return new_scroll_position != scroll_position
     #method to scroll up 200 pixels
