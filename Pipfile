@@ -10,6 +10,11 @@ matplotlib = "*"
 bs4 = "*"
 selenium = "*"
 pillow = "*"
+ipykernel = "*"
+
+[scripts]
+clearimg = "bash -c \"rm -rf assets/images && mkdir assets/images\""
+start = "python src/app.py"
 
 [dev-packages]
 
