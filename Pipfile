@@ -11,6 +11,7 @@ bs4 = "*"
 selenium = "*"
 pillow = "*"
 ipykernel = "*"
+sklearn = "*"
 
 [scripts]
 clearimg = "bash -c \"rm -rf assets/images && mkdir assets/images\""
