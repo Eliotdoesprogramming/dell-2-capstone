@@ -5,6 +5,7 @@ import time
 import os
 import requests
 import base64
+import re
 class myScraper(object):
     #initialize with a webdriver object, a description of image to scrape from google
     def __init__(self, driver_path):
@@ -153,13 +154,13 @@ class myScraper(object):
             if(idx % 100 == 0):
                 print(idx,' images downloaded')
             if (url[:4] != 'data'):
-                self.download_image_from_url(url, self.driver_path[:-16]+'/images/'+str(search_term)+'/'+str(idx+start_index)+'.png')
+                self.download_image_from_url(url, self.driver_path[:-16]+'/images/'+str(search_term)+'/'+str(search_term[0:4])+str(idx+start_index)+'.png')
             elif(url[:4] == 'data'):       
                 image_base64 = url.split('base64,')[1]
                 format = 'jpeg' if url.split('image/')[1][0:4] == 'jpeg' else 'png'
                 imgdata = base64.b64decode(image_base64)
                 #write the base64 image to a file
-                with open(self.driver_path[:-16]+'/images/'+str(search_term)+'/'+str(idx+start_index)+'.'+format, 'wb') as f:
+                with open(self.driver_path[:-16]+'/images/'+str(search_term)+'/'+str(search_term[0:4])+str(idx+start_index)+'.'+format, 'wb') as f:
                     f.write(imgdata)
                     f.close()
         return idx
@@ -180,7 +181,8 @@ class myScraper(object):
         for image in images:
             if(image[-4:] == '.png' or image[-4:] == '.jpg'):
                 try:
-                    nums.append(int(image[:-4]))
+                    imgidx = re.search(r'\d+',image)[0]
+                    nums.append(int(imgidx))
                 except Exception as e:
                     print(e)
                     pass
