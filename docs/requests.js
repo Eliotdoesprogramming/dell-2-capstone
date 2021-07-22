@@ -17,8 +17,8 @@ let predPizza = (url) => {
             }
     })
 }
-
 $('#submit1').click(()=>{
     let url = $('#modelurl1').val()
     predPizza(url)
 })
+console.log('file loaded')
