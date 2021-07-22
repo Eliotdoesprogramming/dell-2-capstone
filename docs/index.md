@@ -59,5 +59,6 @@ The premise of my first model was building classifiers to accurately predict whe
 
 
 
-<script type="text/javascript" src="requests.js">
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="requests.js">
