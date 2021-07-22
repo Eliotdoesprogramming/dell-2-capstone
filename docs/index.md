@@ -80,12 +80,18 @@ If you want to try this model out yourself, I have it hosted in a Flask Microser
 
 <div id="model1" style="display:flex; justify-content:center">
     <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
+        <input type="text" class="form-control" placeholder="image url here" aria-label="" aria-describedby="basic-addon1" id="modelurl1">
         <div class="input-group-prepend">
-            <button class="btn btn-outline-secondary" type="button">Button</button>
+            <button class="btn btn-outline-secondary" type="button" id="submit1">Submit Image URL</button>
         </div>
     </div>
 </div>
+<div id="model1result">
+</div>
+
+
+
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
