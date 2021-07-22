@@ -7,7 +7,7 @@ import requests
 import base64
 import re
 class myScraper(object):
-    #initialize with a webdriver object, a description of image to scrape from google
+    #initialize scraper with path to chromedriver
     def __init__(self, driver_path):
         self.driver_path = driver_path
         self.driver = self.open_browser()
