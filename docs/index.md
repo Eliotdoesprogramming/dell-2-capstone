@@ -45,10 +45,48 @@ From there all that was left to do was build my dataset. For pizza classificatio
 
 ## Model Building and Training
 
+I moved all of the images into their own directories and converted them into 180x180x3 tensors to feed into my model, using a 80-20 split between training and validation
+
+![](2021-07-22-15-26-29.png)
+
+after which, I verified that the images were correctly labeled by using matplotlib and PIL
+![](2021-07-22-15-27-28.png)
+
+Next I built my Sequential keras model that preprocesses the image arrays to scale their red green blue values from 0-255 to 0-1. The model alternates between convolutional layers using a `relu` activation function and pooling layers 3 times and then flattens the layers and uses a Dense layer to make its final prediction.
+
+![](2021-07-22-15-38-21.png)
 
 
+I compile the model using `adam` as my optimizer and `sparse categorical crossentropy` as my loss function. I then fit the model using a callback for early stopping on validation accuracy in order to maximize accuracy of my model. Additionally, the callback will restore the best weights effectively ensuring that it will maintain its highest accuracy across all epochs
 
-<div id="test" style="height:100px; width:100px;"></div>
+![](2021-07-22-15-42-13.png)
 
+After 13 epochs, the rate of my model's learning slowed down and the early stopping callback kicked in. I then compared the predictions my model made to the actual labels assigned to the images.
+
+![](2021-07-22-15-47-37.png)
+
+I found that my model worked extremely well, predicting correctly on our validation set 93% of the time. Additionally we kept strong f1 scores meaning that both are classes 0 being ``not pizza`` and 1 being ``pizza`` are well represented in the model.
+
+taking it a step further, I used images not in the dataset to verify that the model did in fact correctly predict images as pizza and not pizza. 
+
+![](2021-07-22-16-03-24.png)
+![](2021-07-22-16-05-40.png)
+
+The model even did well with images of food similar to pizza such as a frittata
+
+![](2021-07-22-16-09-18.png)
+
+If you want to try this model out yourself, I have it hosted in a Flask Microservice on aws ec2.
+
+<div id="model1" style="display:flex; justify-content:center">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
+        <div class="input-group-prepend">
+            <button class="btn btn-outline-secondary" type="button">Button</button>
+        </div>
+    </div>
+</div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script type="text/javascript" src="requests.js">
