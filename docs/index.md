@@ -12,7 +12,10 @@ My project was inspired by Amazon's Go stores that they had opened initially in 
 
 > "What if we could weave the most advanced machine learning computer vision and AI into the very fabric of a store so you never have to wait in line? No lines. No checkouts. No registers."
 
-Combining that inspiration with the practical use cases came to me while talking with Stephen Logan about how Dell operates and what we should expect in our work with Dell.
+Combining that inspiration with the practical use cases came to me while talking with Stephen Logan about how Dell operates and what we should expect in our work with Dell. Something he mentioned was that for most products that Dell creates, it will be adopted internally before being used for the consumer market. This sparked the idea to build a prototype or first steps in creating a "Dell Go" store for Dell's internal employees. Could we allow Dell employees to grab their food and go, maximizing their productiveness making use of our own machine learning and computer vision technology?
+
+## Project Model 1: Pizza Classification
+
 
 
 
