@@ -12,6 +12,7 @@ selenium = "*"
 pillow = "*"
 ipykernel = "*"
 sklearn = "*"
+seaborn = "*"
 
 [scripts]
 clearimg = "bash -c \"rm -rf assets/images && mkdir assets/images\""
