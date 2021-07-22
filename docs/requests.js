@@ -1,0 +1,1 @@
+$('#test').css('background-color', 'red');

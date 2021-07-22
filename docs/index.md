@@ -16,7 +16,9 @@ Combining that inspiration with the practical use cases came to me while talking
 
 ## Project Model 1: Pizza Classification
 
-
+The premise of my first model was building classifiers to accurately predict whether or not each food item is present from an employee's 
+### Data Collection:
+<div id="test" style="height:100px; width:100px;"></div>
 
 
 
