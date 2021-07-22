@@ -7,4 +7,7 @@ let predPizza = (url) => {
     console.log(url)
 }
 
-$('#submit1').on('click', predPizza($('#modelurl1').val()));
+$('#submit1').click(()=>{
+    let url = $('#modelurl1').val()
+    predPizza(url)
+})
