@@ -18,7 +18,7 @@ let predPizza = (url) => {
             //update the text input with the name of the pizza
             $('#model1result').append(`<h1>Result: <span class="${data.is_pizza == 'True'? 'badge badge-success': 'badge badge-danger'}">${data.is_pizza == 'True'? 'pizza': 'not pizza'}</span></h1>`) 
         }
-}
+})
 
 $('#submit1').click(()=>{
     let url = $('#modelurl1').val()
