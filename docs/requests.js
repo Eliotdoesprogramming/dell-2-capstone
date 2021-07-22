@@ -1,8 +1,5 @@
 
-
-
 // select the text inside of a text input with the id modelurl1 using jquery
-
 let predPizza = (url) => {
         console.log(url)
         //make a request to localhost:5000/pizza with a json object containing the url
@@ -20,7 +17,6 @@ let predPizza = (url) => {
             }
     })
 }
-
 
 $('#submit1').click(()=>{
     let url = $('#modelurl1').val()
