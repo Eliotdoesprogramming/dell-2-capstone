@@ -12,7 +12,7 @@ let predPizza = (url) => {
                 //update the text input with the name of the pizza
                 $('#model1result').empty();
                 if(data.is_pizza){
-                    $('#model1result').append(`<h1>Result: <span class="${data.is_pizza == 'True'? 'badge badge-success': 'badge badge-danger'}">${data.is_pizza == 'True'? 'pizza': 'not pizza'}</span></h1>`)
+                    $('#model1result').append(`<h1>Result: <span class="${data.is_pizza == 'True'? 'badge bg-success': 'badge bg-danger'}">${data.is_pizza == 'True'? 'pizza': 'not pizza'}</span></h1>`)
                 }
                 else {
                     $('#model1result').append(`<h1>Error..</h1>`)
@@ -38,7 +38,7 @@ let predTen = (url) => {
             //update the text input with the name of the pizza
             $('#model2result').empty();
             if(data.is_pizza){
-                $('#mode2result').append(`<h1>Result: <span class="badge badge-success">${data.food}</span></h1>`)
+                $('#mode2result').append(`<h1>Result: <span class="badge bg-success">${data.food}</span></h1>`)
             }
             else {
                 $('#model2result').append(`<h1>Error..</h1>`)

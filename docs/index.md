@@ -47,34 +47,36 @@ From there all that was left to do was build my dataset. For pizza classificatio
 
 I moved all of the images into their own directories and converted them into 180x180x3 tensors to feed into my model, using a 80-20 split between training and validation
 
-![](2021-07-22-15-26-29.png)
+![](images/2021-07-22-15-26-29.png)
 
 after which, I verified that the images were correctly labeled by using matplotlib and PIL
-![](2021-07-22-15-27-28.png)
+![](images/2021-07-22-15-27-28.png)
 
 Next I built my Sequential keras model that preprocesses the image arrays to scale their red green blue values from 0-255 to 0-1. The model alternates between convolutional layers using a `relu` activation function and pooling layers 3 times and then flattens the layers and uses a Dense layer to make its final prediction.
 
-![](2021-07-22-15-38-21.png)
+![](images/2021-07-22-15-38-21.png)
 
 
 I compile the model using `adam` as my optimizer and `sparse categorical crossentropy` as my loss function. I then fit the model using a callback for early stopping on validation accuracy in order to maximize accuracy of my model. Additionally, the callback will restore the best weights effectively ensuring that it will maintain its highest accuracy across all epochs
 
-![](2021-07-22-15-42-13.png)
+![](images/2021-07-22-15-42-13.png)
 
 After 13 epochs, the rate of my model's learning slowed down and the early stopping callback kicked in. I then compared the predictions my model made to the actual labels assigned to the images.
 
-![](2021-07-22-15-47-37.png)
+![](images/2021-07-22-15-47-37.png)
 
 I found that my model worked extremely well, predicting correctly on our validation set 93% of the time. Additionally we kept strong f1 scores meaning that both are classes 0 being ``not pizza`` and 1 being ``pizza`` are well represented in the model.
 
 taking it a step further, I used images not in the dataset to verify that the model did in fact correctly predict images as pizza and not pizza. 
 
-![](2021-07-22-16-03-24.png)
-![](2021-07-22-16-05-40.png)
+![](images/2021-07-22-16-03-24.png)
+![](images/2021-07-22-16-05-40.png)
 
 The model even did well with images of food similar to pizza such as a frittata
 
-![](2021-07-22-16-09-18.png)
+![](images/2021-07-22-16-09-18.png)
+
+Finally, I trained the model on the whole dataset.
 
 If you want to try this model out yourself, I have it hosted in a Flask Microservice on aws ec2.
 
@@ -89,8 +91,93 @@ If you want to try this model out yourself, I have it hosted in a Flask Microser
 <div id="model1result">
 </div>
 
+## Model 2: Multiclass Image Classification
+
+The next approach I went to try with building an image classification model for Dell's employees was a multiclass classification approach where I would use a single model to identify multiple different types of foods.
+
+### Data Collection
+Following the same scraping methodology as model 1, I scraped bing, google and yahoo images to build my dataset. This time I scraped for 10 classes:
+
+```python
+classes = ['apple',
+ 'burger',
+ 'cookie',
+ 'fries',
+ 'ice-cream',
+ 'nuggets',
+ 'pasta',
+ 'pizza',
+ 'salad',
+ 'soda']
+```
+ Taking notes from my last attempt at data collecting, I had found that using more specific search terms generally gave better image results in the search engines so each of the classes had 3-4 specific sub searches to build the dataset. For example, apple's search terms consisted of ``granny smith apple, fuji apple, red apple, green apple`` 
+
+ For each of the classes, I scraped 2000 images to train my model with for a total of 20,000 images.
+
+ ### Model Building and Training
+
+Following many of the same initial steps I used keras to pull the images from their directories and into my dataset.
+
+I verified that my images were labeled correctly and started building my keras model
+
+![](2021-07-23-12-23-07.png)
+
+My first model I built in the same methodology as the binary classification model, minimal image preprocessing only adjusting the amount of classes in the output.
+
+![](2021-07-23-12-26-17.png)
+
+My model this time did reasonably with a 81% accuracy on the validation set. That being said, I wanted to see if I could get accuracy to the same level that I had seen previously with the binary classification
+
+![](2021-07-23-12-32-52.png)
+
+![](2021-07-23-12-28-34.png)
 
 
+Something else to note about the model is that it was fitted perfectly to the training set, with 100% accuracy and 0 categorical loss. Training the model for more epochs wouldn't give my model any more benefits, there had to be changes to the data that would help my model learn better.
+
+### Data Augmentation
+Seeing as the data was fitting too closely to our training dataset, I starting using image augmentation to manipulate the training set and allow our validation set to train for longer.
+
+The first of the image augmentation methods I used was randomly applying rotational and horizontal flips to the image.
+
+![](2021-07-23-12-46-50.png)
+![](2021-07-23-12-52-45.png)
+
+This extra layer of preprocessing did extremely well in having my model fit less closely to the training set
+
+![](2021-07-23-12-48-24.png)
+
+What I found was that even after 50 epochs, my model was still learning! That being said, the rate at which my model learned was significantly hit. I ended up fitting again for another 40 epochs and got an 83% accurate model, slightly higher than the unaugmented images. That being said, this model was less tightly fitted to the training set, making it a more generalized acceptable model.
+
+![](2021-07-23-12-58-54.png)
+
+Other methods of augmentation that I used were applying grayscale and color inversion by building custom keras layers to manipulate the image data.
+
+![](2021-07-23-13-00-55.png)
+![](2021-07-23-13-01-37.png)
+
+Unfortunately, both of these, especially the inversion significantly reduced the accuracy of my model leading me to believe that color is an important factor for this image classification model
+
+## Model Testing
+Like before, I trained my model with image flipping data augmentation on the whole dataset and then tested it with images found outside the dataset.
+
+![](2021-07-23-13-07-32.png)
+
+![](2021-07-23-13-08-31.png)
+
+![](2021-07-23-13-09-47.png)
+
+As before, I have this model hosted on a Amazon EC2 Instance for your testing pleasure
+<div id="model2" style="display:flex; justify-content:center">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="image url here" aria-label="" aria-describedby="basic-addon1" id="modelurl2">
+        <div class="input-group-prepend">
+            <button class="btn btn-outline-secondary" type="button" id="submit2">Submit Image URL</button>
+        </div>
+    </div>
+</div>
+<div id="model2result">
+</div>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
