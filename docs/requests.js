@@ -5,7 +5,7 @@ let predPizza = (url) => {
         //make a request to localhost:5000/pizza with a json object containing the url
         //the server should return a json object with the name of the pizza
         $.ajax({
-            url: 'http://localhost:5000/pizza',
+            url: 'http://18.116.242.75/pizza',
             type: 'POST',
             data: url,
             success: function(data) {
@@ -31,7 +31,7 @@ let predTen = (url) => {
     //make a request to localhost:5000/pizza with a json object containing the url
     //the server should return a json object with the name of the pizza
     $.ajax({
-        url: 'http://localhost:5000/tenfood',
+        url: 'http://18.116.242.75/tenfood',
         type: 'POST',
         data: url,
         success: function(data) {
