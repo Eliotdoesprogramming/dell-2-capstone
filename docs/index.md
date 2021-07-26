@@ -38,7 +38,9 @@ The scraper works by scrolling through an image search engine and collecting ima
 The next hurdle was that each search engine limits the amount of search results per image search. I remedied this by searching google images, bing images, and yahoo images in order to increase the amount of image results I can get per search term. Between the three search engines, I could get approximately 1800 images per search term. Additionally a failsafe that I found to be nearly exclusive to google was that they will limit results further if you scrape their site too quickly. In order to remedy that, I added extra human delay and smooth scrolling to maximize the amount of results.
 
 
-![](images/2021-07-22-14-05-57.png)
+
+<div style="text-align:center; "><img src="./images/2021-07-22-14-05-57.png" style="max-height:400px;"></div>
+
 
 From there all that was left to do was build my dataset. For pizza classification I scraped a dataset of 10,000 images. 5,000 images of pizza and 5,000 images of not pizza.
 
@@ -47,34 +49,42 @@ From there all that was left to do was build my dataset. For pizza classificatio
 
 I moved all of the images into their own directories and converted them into 180x180x3 tensors to feed into my model, using a 80-20 split between training and validation
 
-![](images/2021-07-22-15-26-29.png)
+<div style="text-align:center; "><img src="./images/2021-07-22-15-26-29.png" style="max-height:400px;"></div>
+
 
 after which, I verified that the images were correctly labeled by using matplotlib and PIL
-![](images/2021-07-22-15-27-28.png)
+
+<div style="text-align:center; "><img src="./images/2021-07-22-15-27-28.png" style="max-height:400px;"></div>
+
 
 Next I built my Sequential keras model that preprocesses the image arrays to scale their red green blue values from 0-255 to 0-1. The model alternates between convolutional layers using a `relu` activation function and pooling layers 3 times and then flattens the layers and uses a Dense layer to make its final prediction.
 
-![](images/2021-07-22-15-38-21.png)
+<div style="text-align:center; "><img src="./images/2021-07-22-15-38-21.png" style="max-height:400px;"></div>
+
 
 
 I compile the model using `adam` as my optimizer and `sparse categorical crossentropy` as my loss function. I then fit the model using a callback for early stopping on validation accuracy in order to maximize accuracy of my model. Additionally, the callback will restore the best weights effectively ensuring that it will maintain its highest accuracy across all epochs
 
-![](images/2021-07-22-15-42-13.png)
+<div style="text-align:center; "><img src="./images/2021-07-22-15-42-13.png" style="max-height:400px;"></div>
 
 After 13 epochs, the rate of my model's learning slowed down and the early stopping callback kicked in. I then compared the predictions my model made to the actual labels assigned to the images.
 
-![](images/2021-07-22-15-47-37.png)
+<div style="text-align:center; "><img src="./images/2021-07-22-15-47-37.png" style="max-height:400px;"></div>
 
 I found that my model worked extremely well, predicting correctly on our validation set 93% of the time. Additionally we kept strong f1 scores meaning that both are classes 0 being ``not pizza`` and 1 being ``pizza`` are well represented in the model.
 
 taking it a step further, I used images not in the dataset to verify that the model did in fact correctly predict images as pizza and not pizza. 
 
-![](images/2021-07-22-16-03-24.png)
-![](images/2021-07-22-16-05-40.png)
+
+<div style="text-align:center; "><img src="./images/2021-07-22-16-03-24.png" style="max-height:400px;"></div>
+
+<div style="text-align:center; "><img src="./images/2021-07-22-16-05-40.png" style="max-height:400px;"></div>
+
+
 
 The model even did well with images of food similar to pizza such as a frittata
+<div style="text-align:center; "><img src="./images/2021-07-22-16-09-18.png" style="max-height:400px;"></div>
 
-![](images/2021-07-22-16-09-18.png)
 
 Finally, I trained the model on the whole dataset.
 
@@ -120,17 +130,18 @@ Following many of the same initial steps I used keras to pull the images from th
 
 I verified that my images were labeled correctly and started building my keras model
 
-![](2021-07-23-12-23-07.png)
+<div style="text-align:center; "><img src="./images/2021-07-23-12-23-07.png" style="max-height:400px;"></div>
+
+
 
 My first model I built in the same methodology as the binary classification model, minimal image preprocessing only adjusting the amount of classes in the output.
 
-![](2021-07-23-12-26-17.png)
+<div style="text-align:center; "><img src="./images/2021-07-23-12-26-17.png" style="max-height:400px;"></div>
+
 
 My model this time did reasonably with a 81% accuracy on the validation set. That being said, I wanted to see if I could get accuracy to the same level that I had seen previously with the binary classification
+<div style="text-align:center; "><img src="./images/2021-07-23-12-32-52.png" style="max-height:400px;"></div>
 
-![](2021-07-23-12-32-52.png)
-
-![](2021-07-23-12-28-34.png)
 
 
 Something else to note about the model is that it was fitted perfectly to the training set, with 100% accuracy and 0 categorical loss. Training the model for more epochs wouldn't give my model any more benefits, there had to be changes to the data that would help my model learn better.
@@ -140,32 +151,36 @@ Seeing as the data was fitting too closely to our training dataset, I starting u
 
 The first of the image augmentation methods I used was randomly applying rotational and horizontal flips to the image.
 
-![](2021-07-23-12-46-50.png)
-![](2021-07-23-12-52-45.png)
+<div style="text-align:center; "><img src="./images/2021-07-23-12-46-50.png" style="max-height:400px;"></div>
+<div style="text-align:center; "><img src="./images/2021-07-23-12-52-45.png" style="max-height:400px;"></div>
+
 
 This extra layer of preprocessing did extremely well in having my model fit less closely to the training set
+<div style="text-align:center; "><img src="./images/2021-07-23-12-48-24.png" style="max-height:400px;"></div>
 
-![](2021-07-23-12-48-24.png)
 
 What I found was that even after 50 epochs, my model was still learning! That being said, the rate at which my model learned was significantly hit. I ended up fitting again for another 40 epochs and got an 83% accurate model, slightly higher than the unaugmented images. That being said, this model was less tightly fitted to the training set, making it a more generalized acceptable model.
 
-![](2021-07-23-12-58-54.png)
+<div style="text-align:center; "><img src="./images/2021-07-23-12-58-54.png" style="max-height:400px;"></div>
+
 
 Other methods of augmentation that I used were applying grayscale and color inversion by building custom keras layers to manipulate the image data.
 
-![](2021-07-23-13-00-55.png)
-![](2021-07-23-13-01-37.png)
+<div style="text-align:center; "><img src="./images/2021-07-23-13-00-55.png" style="max-height:400px;"></div>
+<div style="text-align:center; "><img src="./images/2021-07-23-13-01-37.png" style="max-height:400px;"></div>
+
 
 Unfortunately, both of these, especially the inversion significantly reduced the accuracy of my model leading me to believe that color is an important factor for this image classification model
 
 ## Model Testing
 Like before, I trained my model with image flipping data augmentation on the whole dataset and then tested it with images found outside the dataset.
 
-![](2021-07-23-13-07-32.png)
+<div style="text-align:center; "><img src="./images/2021-07-23-13-07-32.png" style="max-height:400px;"></div>
 
-![](2021-07-23-13-08-31.png)
+<div style="text-align:center; "><img src="./images/2021-07-23-13-08-31.png" style="max-height:400px;"></div>
 
-![](2021-07-23-13-09-47.png)
+<div style="text-align:center; "><img src="./images/2021-07-23-13-09-47.png" style="max-height:400px;"></div>
+
 
 As before, I have this model hosted on a Amazon EC2 Instance for your testing pleasure
 <div id="model2" style="display:flex; justify-content:center">
