@@ -38,7 +38,7 @@ let predTen = (url) => {
             //update the text input with the name of the pizza
             $('#model2result').empty();
             if(data.food){
-                $('#mode2result').append(`<h1>Result: <span class="badge bg-success">${data.food}</span></h1>`)
+                $('#model2result').append(`<h1>Result: <span class="badge bg-success">${data.food}</span></h1>`)
             }
             else {
                 $('#model2result').append(`<h1>Error..</h1>`)
