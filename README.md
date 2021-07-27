@@ -1,3 +1,8 @@
 # dell-2-capstone
 
-This repository contains the project work for image classifiers built using tensorflow.
+Having trouble accessing the website? try 
+[this link](https://eliotdoesprogramming.github.io/dell-2-capstone/)
+
+to access the version being served over https. This version won't be able to interact with the model
+
+
