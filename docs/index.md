@@ -167,6 +167,7 @@ Other methods of augmentation that I used were applying grayscale and color inve
 
 <div style="text-align:center; "><img src="./images/2021-07-23-13-00-55.png" style="max-height:400px;"></div>
 <div style="text-align:center; "><img src="./images/2021-07-23-13-01-37.png" style="max-height:400px;"></div>
+<div style="text-align:center; "><img src="./images/2021-07-27-12-02-21.png" style="max-height:400px;"></div>
 
 
 Unfortunately, both of these, especially the inversion significantly reduced the accuracy of my model leading me to believe that color is an important factor for this image classification model
