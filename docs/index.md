@@ -81,7 +81,6 @@ taking it a step further, I used images not in the dataset to verify that the mo
 <div style="text-align:center; "><img src="./images/2021-07-22-16-05-40.png" style="max-height:400px;"></div>
 
 
-
 The model even did well with images of food similar to pizza such as a frittata
 <div style="text-align:center; "><img src="./images/2021-07-22-16-09-18.png" style="max-height:400px;"></div>
 
