@@ -1,8 +1,8 @@
-# dell-2-capstone
+This repository contains the webscraper and models built using tensorflow for image classification.
 
-Having trouble accessing the website? try 
-[this link](https://eliotdoesprogramming.github.io/dell-2-capstone/)
+Read my article and test my model 
+[here](https://eliotdoesprogramming.github.io/dell-2-capstone/)
 
-to access the version being served over https. This version won't be able to interact with the model
+
 
 
