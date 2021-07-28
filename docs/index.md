@@ -131,7 +131,7 @@ Following many of the same initial steps I used keras to pull the images from th
 
 I verified that my images were labeled correctly and started building my keras model
 
-<div style="text-align:center; "><img src="./images/2021-07-23-12-23-07.png" style="max-height:400px;"></div>
+<div style="text-align:center; "><img src="./images/2021-07-28-12-06-50.png" style="max-height:400px;"></div>
 
 
 
@@ -141,11 +141,12 @@ My first model I built in the same methodology as the binary classification mode
 
 
 My model this time did reasonably with a 81% accuracy on the validation set. That being said, I wanted to see if I could get accuracy to the same level that I had seen previously with the binary classification
-<div style="text-align:center; "><img src="./images/2021-07-23-12-32-52.png" style="max-height:400px;"></div>
+<div style="text-align:center; "><img src="./images/withoutaug.png" style="max-height:400px;"></div>
 
 
 
 Something else to note about the model is that it was fitted perfectly to the training set, with 100% accuracy and 0 categorical loss. Training the model for more epochs wouldn't give my model any more benefits, there had to be changes to the data that would help my model learn better.
+<div style="text-align:center; "><img src="./images/2021-07-28-12-11-46.png" style="max-height:400px;"></div>
 
 ### Data Augmentation
 Seeing as the data was fitting too closely to our training dataset, I starting using image augmentation to manipulate the training set and allow our validation set to train for longer.
