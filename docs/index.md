@@ -1,5 +1,6 @@
 # Image Classification using Tensor Flow
-
+- [Try the Pizza model](#try-the-pizza-model)
+- [Try the 10 food](#try-the-10-food-model)
 
 ## Introduction
 
@@ -87,7 +88,8 @@ The model even did well with images of food similar to pizza such as a frittata
 
 Finally, I trained the model on the whole dataset.
 
-If you want to try this model out yourself, I have it hosted in a Flask Microservice on aws ec2.
+## Try the Pizza Model
+If you want to try this model out yourself, I have it hosted in a Flask based api. Send the model image url's of Pizza and see what it predicts!
 
 <div id="model1" class="card shadow-lg" style="display:flex; justify-content:center; padding:20px; margin:40px">
     <div class="input-group mb-3">
@@ -181,8 +183,25 @@ Like before, I trained my model with image flipping data augmentation on the who
 
 <div style="text-align:center; "><img src="./images/2021-07-23-13-09-47.png" style="max-height:400px;"></div>
 
+### Try the 10 Food Model
 
-As before, I have this model hosted on a Amazon EC2 Instance for your testing pleasure
+As before, this model is hosted on a flask based api. 
+
+```python
+    classes = ['apple',
+    'burger',
+    'cookie',
+    'fries',
+    'ice-cream',
+    'nuggets',
+    'pasta',
+    'pizza',
+    'salad',
+    'soda']
+```
+
+send the model image url's from one of the above classes and see what it predicts!
+
 <div id="model2" class="card shadow-lg" style="display:flex; justify-content:center; padding:20px; margin:40px">
     <div class="input-group mb-3">
         <input type="text" class="form-control" placeholder="image url here" aria-label="" aria-describedby="basic-addon1" id="modelurl2">
