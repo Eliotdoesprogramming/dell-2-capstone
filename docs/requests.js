@@ -5,7 +5,7 @@ let predPizza = (url) => {
         //make a request to localhost:5000/pizza with a json object containing the url
         //the server should return a json object with the name of the pizza
         $.ajax({
-            url: 'http://18.116.242.75/pizza',
+            url: 'https://img-class-api-ez.herokuapp.com/pizza',
             type: 'POST',
             data: url,
             success: function(data) {
@@ -31,7 +31,7 @@ let predTen = (url) => {
     //make a request to localhost:5000/pizza with a json object containing the url
     //the server should return a json object with the name of the pizza
     $.ajax({
-        url: 'http://18.116.242.75/tenfood',
+        url: 'https://img-class-api-ez.herokuapp.com/tenfood',
         type: 'POST',
         data: url,
         success: function(data) {
