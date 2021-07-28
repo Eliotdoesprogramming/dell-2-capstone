@@ -200,7 +200,7 @@ As before, this model is hosted on a flask based api.
     'soda']
 ```
 
-send the model image url's from one of the above classes and see what it predicts!
+send the model an image's url from one of the above classes and see what it predicts!
 
 <div id="model2" class="card shadow-lg" style="display:flex; justify-content:center; padding:20px; margin:40px">
     <div class="input-group mb-3">
