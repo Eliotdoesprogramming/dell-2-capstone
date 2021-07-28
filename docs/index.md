@@ -89,7 +89,7 @@ The model even did well with images of food similar to pizza such as a frittata
 Finally, I trained the model on the whole dataset.
 
 ## Try the Pizza Model
-If you want to try this model out yourself, I have it hosted in a Flask based api. Send the model image url's of Pizza and see what it predicts!
+If you want to try this model out yourself, I have it hosted in a Flask based api. Send the model an image's source and see what it predicts!
 
 <div id="model1" class="card shadow-lg" style="display:flex; justify-content:center; padding:20px; margin:40px">
     <div class="input-group mb-3">
