@@ -125,7 +125,7 @@ classes = ['apple',
 
  For each of the classes, I scraped 2000 images to train my model with for a total of 20,000 images.
 
- ### Model Building and Training
+### Model Building and Training
 
 Following many of the same initial steps I used keras to pull the images from their directories and into my dataset.
 
