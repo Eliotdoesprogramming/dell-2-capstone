@@ -89,7 +89,7 @@ Finally, I trained the model on the whole dataset.
 
 If you want to try this model out yourself, I have it hosted in a Flask Microservice on aws ec2.
 
-<div id="model1" style="display:flex; justify-content:center">
+<div id="model1" class="card shadow-lg" style="display:flex; justify-content:center; padding:20px; margin:40px">
     <div class="input-group mb-3">
         <input type="text" class="form-control" placeholder="image url here" aria-label="" aria-describedby="basic-addon1" id="modelurl1">
         <div class="input-group-prepend">
@@ -183,7 +183,7 @@ Like before, I trained my model with image flipping data augmentation on the who
 
 
 As before, I have this model hosted on a Amazon EC2 Instance for your testing pleasure
-<div id="model2" style="display:flex; justify-content:center">
+<div id="model2" class="card shadow-lg" style="display:flex; justify-content:center; padding:20px; margin:40px">
     <div class="input-group mb-3">
         <input type="text" class="form-control" placeholder="image url here" aria-label="" aria-describedby="basic-addon1" id="modelurl2">
         <div class="input-group-prepend">
