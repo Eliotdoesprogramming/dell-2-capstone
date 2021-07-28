@@ -1,6 +1,6 @@
 # Image Classification using Tensor Flow
 - [Try the Pizza model](#try-the-pizza-model)
-- [Try the 10 food](#try-the-10-food-model)
+- [Try the 10 food model](#try-the-10-food-model)
 
 ## Introduction
 
